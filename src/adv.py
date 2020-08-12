@@ -49,24 +49,32 @@ player = Player(player_name, room['outside'])
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
 while True:
+    try:
+        print(player)
 
-    print(f'{player} You are in {player.current_room.name} {player.current_room.description} !')
-    player_input = input(
-        f'Please choose which direction you would like to go: [s] for south, [n] for north, [e] for east, [w] for west, or choose [q] to quit game: ')
+        player_input = input(
+            f'Please choose which direction you would like to go: [s] for south, [n] for north, [e] for east, [w] for west, or choose [q] to quit game: ')
 
-    if player_input == 'q':
-        print("Thank you for playing")
-        break
-    if player_input in {'n', 's', 'e', 'w'}:
-        if hasattr(player.current_room, f'{player_input}_to'):
-            player.current_room = getattr(
-                player.current_room, f'{player_input}_to')
-            print(f' You are now in {player.current_room}')
-    else:
-        print("You cannot go in that direction, please choose another direction")
+        if player_input == 'q':
+            print("Thank you for playing")
+            break
+        if player_input == 's' or player_input == 'n' or player_input == 'e' or player_input == 'w':
+            if getattr(player.current_room, f'{player_input}_to') is not None:
+                player.current_room = getattr(
+                    player.current_room, f'{player_input}_to')
+            else:
+                print("That direction is blocked, please choose another direction")
 
-        #
-        # If the user enters a cardinal direction, attempt to move to the room there.
-        # Print an error message if the movement isn't allowed.
-        #
-        # If the user enters "q", quit the game.
+    except ValueError:
+        print('Error')
+
+    # If the user enters a cardinal direction, attempt to move to the room there.
+    # Print an error message if the movement isn't allowed.
+
+    # If the user enters "q", quit the game.
+    # ** This wouldnt work, need to check why
+    # if player_input in {'n', 's', 'e', 'w'}:
+        #     if hasattr(player.current_room, f'{player_input}_to'):
+        #         player.current_room = getattr(
+        #             player.current_room, f'{player_input}_to')
+        #         print(f' You are now in {player.current_room}')
