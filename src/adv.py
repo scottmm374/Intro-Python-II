@@ -72,9 +72,3 @@ while True:
     # Print an error message if the movement isn't allowed.
 
     # If the user enters "q", quit the game.
-    # ** This wouldnt work, need to check why
-    # if player_input in {'n', 's', 'e', 'w'}:
-        #     if hasattr(player.current_room, f'{player_input}_to'):
-        #         player.current_room = getattr(
-        #             player.current_room, f'{player_input}_to')
-        #         print(f' You are now in {player.current_room}')
