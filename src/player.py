@@ -9,12 +9,12 @@ class Player:
         self.backpack = backpack
 
     def __str__(self):
-        backpack_contents = ""
+        backpack_contents = " "
         for item in self.backpack:
             backpack_contents += str(item)
-        if backpack_contents == "":
+        if backpack_contents == " ":
             backpack_contents = "None"
-        return f'{self.name}, you are now at {self.current_room}. \n Your backpack contains{backpack_contents}:'
+        return f'{self.name}, you are now at {self.current_room}. \n Your backpack contains: {backpack_contents}'
 
     def get_item(self, item):
         self.backpack.append(item)
