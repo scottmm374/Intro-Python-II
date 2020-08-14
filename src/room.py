@@ -4,22 +4,17 @@ from item import Item
 
 
 class Room:
-    def __init__(self, name, description, item):
+    def __init__(self, name, description):
         self.name = name
         self.description = description
         self.n_to = None
         self.s_to = None
         self.e_to = None
         self.w_to = None
-        self.item = item
+        self.item = []
 
     def __str__(self):
-        item_string = " "
-        for item in self.item:
-            item_string += str(item)
-        if item_string == " ":
-            item_string = "None"
-            return f"{self.name}. {self.description}. \nItems: {item_string}"
+        return f"{self.name}. {self.description}. "
 
     def on_take(self, item):
         self.item.remove(item)

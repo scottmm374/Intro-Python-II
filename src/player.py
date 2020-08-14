@@ -3,18 +3,13 @@
 
 
 class Player:
-    def __init__(self, name, current_room, backpack):
+    def __init__(self, name, current_room):
         self.name = name
         self.current_room = current_room
-        self.backpack = backpack
+        self.backpack = []
 
     def __str__(self):
-        backpack_contents = " "
-        for item in self.backpack:
-            backpack_contents += str(item)
-        if backpack_contents == " ":
-            backpack_contents = "None"
-        return f'{self.name}, you are now at {self.current_room}. \n Your backpack contains: {backpack_contents}'
+        return f'{self.name}, you are now at {self.current_room}. You have {self.backpack}'
 
     def get_item(self, item):
         self.backpack.append(item)
