@@ -1,41 +1,42 @@
+#!/usr/bin/env python3
+
 from room import Room
 from item import Item
 from player import Player
 
+# Declaring Items
 
+hammer = Item("hammer", "Break things")
+saw = Item("Hand saw", "For sawing things")
+water = Item("Bottled Water", "Keep yourself hydrated")
+snacks = Item("snickers", "Keep yourself fed")
+medical = Item("First Aid kit", "Stay healthy")
 # Declare all the rooms
 
 room = {
     'outside':  Room("Outside Cave Entrance,",
-                     "North of you, the cave mount beckons"),
+                     "North of you, the cave mount beckons", [hammer, saw]),
 
     'foyer':    Room("Foyer,", """Dim light filters in from the south. Dusty
-                    passages run north and east."""),
+                    passages run north and east.""", [saw]),
 
     'overlook': Room("Grand Overlook,", """A steep cliff appears before you, falling
                     into the darkness. Ahead to the north, a light flickers in
-                    the distance, but there is no way across the chasm."""),
+                    the distance, but there is no way across the chasm.""", [water]),
 
     'narrow':   Room("Narrow Passage,", """The narrow passage bends here from west
-                    to north. The smell of gold permeates the air."""),
+                    to north. The smell of gold permeates the air.""", [snacks]),
 
     'treasure': Room("Treasure Chamber,", """You've found the long-lost treasure
                     chamber! Sadly, it has already been completely emptied by
-                    earlier adventurers. The only exit is to the south."""),
+                    earlier adventurers. The only exit is to the south.""", [medical]),
 }
 
-items = {
-    'hammer': Item("hammer", "Break things"),
-    'saw': Item("Hand saw", "For sawing things"),
-    'water':  Item("Bottled Water", "Keep yourself hydrated"),
-    'snackbar':  Item("snickers", "Keep yourself fed"),
-    'medical':  Item("First Aid kit", "Stay healthy"),
-}
 
-room['foyer'].items = [items['hammer']]
-room['overlook'].items = [items['water']]
-room['narrow'].items = [items['medical']]
-room['treasure'].items = [items['saw']]
+# room['foyer'].items = [items['hammer']]
+# room['overlook'].items = [items['water']]
+# room['narrow'].items = [items['medical']]
+# room['treasure'].items = [items['saw']]
 # Link rooms together
 
 room['outside'].n_to = room['foyer']
@@ -62,23 +63,24 @@ player = Player(player_name, room['outside'])
 # * Waits for user input and decides what to do.
 while True:
     try:
-        print(player, player.backpack)
-        # * Choose direction
+        print(player)
+
         player_input = input(
-            f'Please choose a direction: n, s, e, w or q to quit').lower()
+            f'Please choose a direction: n, s, e, w or q to quit: ').lower()
         if player_input == 'q':
             print("Thank you for playing")
             break
-        # * Printing items in current room, pick up or drop method loop
-        print(player.current_room.item)
 
-        command = input(
-            f'You see a {player.current_room.item} in the room, would you like to pick it up? yes or no: ').lower()
+        print(f'The following items are in the room: ')
+        current_items = player.current_room.check_room()
+
+        command = input(f'Pick up item?  yes or no: ').lower()
 
         if player_input == "yes":
-            if items in player.current_room.item:
-                player.current_room.on_take(items)
-                player.get_item(items)
+            if player.current_room.items in player.current_room.items:
+                player.on_take(player.current_room.items)
+
+                # print(f'You picked up {player.current_room.item}')
             else:
                 print(f'Choose an action')
 
@@ -91,8 +93,3 @@ while True:
 
     except ValueError:
         print('Error')
-
-    # If the user enters a cardinal direction, attempt to move to the room there.
-    # Print an error message if the movement isn't allowed.
-
-    # If the user enters "q", quit the game.
